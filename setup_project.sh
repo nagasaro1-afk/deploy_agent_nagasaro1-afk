@@ -22,8 +22,32 @@ if [[ -z "$user_input" ]]; then
     exit 1
 fi
 
-# this builds the folder name using whatever the user typed
 PROJECT_DIR="attendance_tracker_${user_input}"
+ARCHIVE_NAME="attendance_tracker_${user_input}_archive"
+
+# this was the hardest part - ctrl+c now runs my cleanup function instead of just stopping
+cleanup_on_cancel() {
+    echo ""
+    echo "-------------------------------------------"
+    echo "  you pressed Ctrl+C, saving what was built so far..."
+    echo "-------------------------------------------"
+
+    if [[ -d "$PROJECT_DIR" ]]; then
+        tar -czf "${ARCHIVE_NAME}.tar.gz" "$PROJECT_DIR"
+        echo "  archive saved as: ${ARCHIVE_NAME}.tar.gz"
+        rm -rf "$PROJECT_DIR"
+        echo "  incomplete folder deleted: $PROJECT_DIR"
+    else
+        echo "  nothing to archive, folder was not created yet"
+    fi
+
+    echo ""
+    echo "  all cleaned up, exiting now"
+    echo "-------------------------------------------"
+    exit 1
+}
+
+trap cleanup_on_cancel SIGINT
 
 # check if the folder already exists so we dont accidentally delete someones work
 if [[ -d "$PROJECT_DIR" ]]; then
@@ -39,12 +63,10 @@ if [[ -d "$PROJECT_DIR" ]]; then
     echo "old folder deleted, starting fresh..."
 fi
 
-# now create the folders we need
 mkdir -p "$PROJECT_DIR/Helpers"
 mkdir -p "$PROJECT_DIR/reports"
 echo "  folders created successfully"
 
-# --- write attendance_checker.py into the project folder ---
 cat > "$PROJECT_DIR/attendance_checker.py" << 'PYTHON_END'
 import csv
 import json
@@ -90,7 +112,6 @@ if __name__ == "__main__":
 PYTHON_END
 echo "  attendance_checker.py created"
 
-# --- write assets.csv ---
 cat > "$PROJECT_DIR/Helpers/assets.csv" << 'CSV_END'
 Email,Names,Attendance Count,Absence Count
 alice@example.com,Alice Johnson,14,1
@@ -100,7 +121,6 @@ diana@example.com,Diana Prince,15,0
 CSV_END
 echo "  assets.csv created"
 
-# --- write config.json ---
 cat > "$PROJECT_DIR/Helpers/config.json" << 'JSON_END'
 {
     "thresholds": {
@@ -113,7 +133,6 @@ cat > "$PROJECT_DIR/Helpers/config.json" << 'JSON_END'
 JSON_END
 echo "  config.json created"
 
-# --- write reports.log ---
 cat > "$PROJECT_DIR/reports/reports.log" << 'LOG_END'
 --- Attendance Report Run: 2026-02-06 18:10:01.468726 ---
 [2026-02-06 18:10:01.469363] ALERT SENT TO bob@example.com: URGENT: Bob Smith, your attendance is 46.7%. You will fail this class.
@@ -121,7 +140,6 @@ cat > "$PROJECT_DIR/reports/reports.log" << 'LOG_END'
 LOG_END
 echo "  reports.log created"
 
-# --- ask if they want to update the thresholds ---
 echo ""
 echo "-------------------------------------------"
 echo "  default thresholds are Warning: 75%  and Failure: 50%"
