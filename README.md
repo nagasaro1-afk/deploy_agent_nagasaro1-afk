@@ -19,16 +19,6 @@ chmod +x setup_project.sh
 - choose if you want to change the warning and failure thresholds
 - the script does the rest
 
-## Folder Structure Created
-
-attendance_tracker_{your_input}/
-- attendance_checker.py
-- Helpers/
-  - assets.csv
-  - config.json
-- reports/
-  - reports.log
-
 ## How to Trigger the Archive Feature
 
 to test the ctrl+c trap:
@@ -40,9 +30,3 @@ to test the ctrl+c trap:
 
 - bash terminal (linux)
 - python3 (the script checks this for you)
-
-## Notes
-
-- i tested this on ubuntu and it worked fine
-- make sure you run chmod +x first otherwise it wont execute
-- the trap feature is the coolest part in my opinion
