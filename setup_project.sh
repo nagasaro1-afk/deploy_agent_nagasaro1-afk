@@ -176,3 +176,60 @@ if [[ "$change_config" == "yes" ]]; then
 else
     echo "  keeping the default thresholds"
 fi
+
+# --- check if python3 is installed ---
+echo ""
+echo "-------------------------------------------"
+echo "  checking if python3 is installed..."
+echo "-------------------------------------------"
+
+if python3 --version &>/dev/null; then
+    py_version=$(python3 --version)
+    echo "  found: $py_version"
+    echo "  you are good to go!"
+else
+    echo "  python3 was not found on this system"
+    echo "  install it by running: sudo apt install python3"
+fi
+
+# --- verify all files are in the right place ---
+echo ""
+echo "-------------------------------------------"
+echo "  verifying all files were created..."
+echo "-------------------------------------------"
+
+all_good=true
+
+required_paths=(
+    "$PROJECT_DIR/attendance_checker.py"
+    "$PROJECT_DIR/Helpers/assets.csv"
+    "$PROJECT_DIR/Helpers/config.json"
+    "$PROJECT_DIR/reports/reports.log"
+)
+
+for path in "${required_paths[@]}"; do
+    if [[ -e "$path" ]]; then
+        echo "  [OK]  $path"
+    else
+        echo "  [MISSING]  $path"
+        all_good=false
+    fi
+done
+
+echo ""
+
+if [[ "$all_good" == true ]]; then
+    echo "  everything is in place, setup is done!"
+else
+    echo "  something is missing, check the errors above"
+fi
+
+echo ""
+echo "=========================================="
+echo "  done! your project is at: ./$PROJECT_DIR"
+echo ""
+echo "  to run it:"
+echo "    cd $PROJECT_DIR"
+echo "    python3 attendance_checker.py"
+echo "=========================================="
+echo ""
