@@ -34,7 +34,7 @@ cleanup_on_cancel() {
 
     if [[ -d "$PROJECT_DIR" ]]; then
         tar -czf "${ARCHIVE_NAME}" "$PROJECT_DIR"
-        echo "  archive saved as: ${ARCHIVE_NAME}.tar.gz"
+        echo "  archive saved as: ${ARCHIVE_NAME}"
         rm -rf "$PROJECT_DIR"
         echo "  incomplete folder deleted: $PROJECT_DIR"
     else
