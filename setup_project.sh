@@ -8,9 +8,9 @@
 # -------------------------------------------------------
 
 echo ""
-echo "=========================================="
+echo ""
 echo "   Attendance Tracker Setup - by AGASARO Nicia Greta"
-echo "=========================================="
+echo ""
 echo ""
 
 read -p "Enter a name for your project (e.g. 'myclass' or 'semester1'): " user_input
@@ -28,9 +28,9 @@ ARCHIVE_NAME="attendance_tracker_${user_input}_archive"
 # this was the hardest part - ctrl+c now runs my cleanup function instead of just stopping
 cleanup_on_cancel() {
     echo ""
-    echo "-------------------------------------------"
+echo ""
     echo "  you pressed Ctrl+C, saving what was built so far..."
-    echo "-------------------------------------------"
+echo ""
 
     if [[ -d "$PROJECT_DIR" ]]; then
         tar -czf "${ARCHIVE_NAME}" "$PROJECT_DIR"
@@ -43,7 +43,7 @@ cleanup_on_cancel() {
 
     echo ""
     echo "  all cleaned up, exiting now"
-    echo "-------------------------------------------"
+echo ""
     exit 1
 }
 
@@ -141,9 +141,9 @@ LOG_END
 echo "  reports.log created"
 
 echo ""
-echo "-------------------------------------------"
+echo ""
 echo "  default thresholds are Warning: 75%  and Failure: 50%"
-echo "-------------------------------------------"
+echo ""
 
 read -p "do you want to change the thresholds? (yes/no): " change_config
 
@@ -179,9 +179,9 @@ fi
 
 # --- check if python3 is installed ---
 echo ""
-echo "-------------------------------------------"
+echo ""
 echo "  checking if python3 is installed..."
-echo "-------------------------------------------"
+echo ""
 
 if python3 --version &>/dev/null; then
     py_version=$(python3 --version)
@@ -194,9 +194,9 @@ fi
 
 # --- verify all files are in the right place ---
 echo ""
-echo "-------------------------------------------"
+echo ""
 echo "  verifying all files were created..."
-echo "-------------------------------------------"
+echo ""
 
 all_good=true
 
@@ -225,11 +225,11 @@ else
 fi
 
 echo ""
-echo "=========================================="
+echo ""
 echo "  done! your project is at: ./$PROJECT_DIR"
 echo ""
 echo "  to run it:"
 echo "    cd $PROJECT_DIR"
 echo "    python3 attendance_checker.py"
-echo "=========================================="
+echo ""
 echo ""
