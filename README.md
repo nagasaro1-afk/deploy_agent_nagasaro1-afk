@@ -30,3 +30,7 @@ to test the ctrl+c trap:
 
 - bash terminal (linux)
 - python3 (the script checks this for you)
+
+## Video Walkthrough
+
+https://youtu.be/dCKenFfQZNI
